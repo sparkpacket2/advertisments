@@ -1,0 +1,12 @@
+{
+  "title": "sparkpacket hiring",
+  "subtitle": "We're hiring!",
+  "intro": "Main AD",
+  "background": ["file.jpeg"],
+  "sections": [
+    {
+      "heading": "test",
+      "text": "this is still being made, you idiot. gotta wait.",
+      "images": ["sga.webp"]
+    }
+}
