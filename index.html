@@ -3,198 +3,405 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{[| sparkpacket | advertisements |]}</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <title>SparkPacket Ads — Host Ads Here</title>
   <style>
-    :root {
-      --bg: #030303;
-      --panel: #07100a;
-      --glow: rgba(0,255,120,0.08);
-      --accent: #39ff14;
-      --muted: #8fbf8f;
-      --mono: "Courier New", Courier, monospace;
-      --max-width: 980px;
+    :root{
+      --gap:16px;
+      --slot-bg:#0f1724;
+      --slot-border:#1f2937;
+      --accent:#0ea5a4;
+      --muted:#94a3b8;
+      --text:#e6eef6;
+      --max-width:1100px;
     }
-    html,body{height:100%;margin:0}
-    body {
-      font-family: var(--mono);
-      background: linear-gradient(180deg, var(--bg), #000 60%);
-      color: var(--accent);
-      padding: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      background-size: cover;
-      background-position: center;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#071028 0%, #031022 100%);
+      color:var(--text);
+      display:flex;
+      justify-content:center;
+      padding:32px;
     }
-    .shell {
-      width: 100%;
-      max-width: var(--max-width);
-      background: rgba(0,0,0,0.6);
-      border-radius: 8px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-      overflow: hidden;
+    .container{
+      width:100%;
+      max-width:var(--max-width);
     }
-    .header {
-      background: #050505;
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
     }
-    .dots {
-      display: inline-flex;
-      gap: 8px;
+    header h1{margin:0;font-size:20px}
+    header p{margin:0;color:var(--muted);font-size:13px}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:var(--gap);
     }
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #2b2b2b;
-      box-shadow: 0 0 8px var(--glow) inset;
+
+    /* make responsive */
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(2,1fr)}
     }
-    .title {flex:1;color:var(--muted);font-size:14px}
-    .content {
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      background: linear-gradient(180deg,#0000, rgba(0,0,0,0.05));
+    @media (max-width:560px){
+      .grid{grid-template-columns:1fr}
     }
-    h1 {margin:0;font-size:20px;color:var(--accent)}
-    h2 {margin:0;font-size:14px;color:var(--muted)}
-    p {line-height:1.45;color:var(--accent);margin-top:12px;white-space:pre-wrap}
-    .ad-block {
-      background: rgba(0,0,0,0.25);
-      border: 1px dashed rgba(57,255,20,0.1);
-      border-radius: 6px;
-      padding: 16px;
-      transition: opacity 1s ease;
+
+    .slot{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+      border:1px solid var(--slot-border);
+      padding:12px;
+      min-height:120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      border-radius:10px;
     }
-    .images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
+    .slot .meta{
+      position:absolute;
+      top:8px;
+      left:8px;
+      font-size:11px;
+      color:var(--muted);
+      background:rgba(0,0,0,0.25);
+      padding:4px 8px;
+      border-radius:999px;
+      backdrop-filter:blur(4px);
     }
-    .images img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid rgba(57,255,20,0.05);
-      background: #021;
+
+    /* SparkPacket main ad styling */
+    .spark-main{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      width:100%;
+      padding:16px;
     }
-    .fade-out { opacity: 0; }
-    .fade-in { opacity: 1; }
-    .footer {
-      padding: 12px 20px;
-      background: #050505;
-      color: var(--muted);
-      font-size: 12px;
+    .spark-main .logo{
+      width:80px;
+      height:80px;
+      min-width:80px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),#036b6a);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#052425;
+      font-size:20px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
     }
+    .spark-main .copy{
+      color:var(--text);
+      font-size:14px;
+      line-height:1.2;
+    }
+    .spark-main .cta{
+      margin-top:10px;
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:8px;
+      background:var(--accent);
+      color:#021717;
+      font-weight:600;
+      text-decoration:none;
+    }
+
+    /* small admin note */
+    .help{
+      margin-top:12px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    /* smooth ad transitions */
+    .ad-inner{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition:opacity .45s, transform .45s;
+    }
+    .ad-enter{opacity:0; transform:translateY(6px)}
+    .ad-enter.ad-visible{opacity:1; transform:none}
   </style>
 </head>
 <body>
-  <div class="shell">
-    <div class="header">
-      <div class="dots">
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  <div class="container">
+    <header>
+      <div>
+        <h1>SparkPacket — Ad Slots</h1>
+        <p>11 display slots — slot 1 is reserved for sparkpacket tech. Other slots rotate through hosted ads.</p>
       </div>
-      <div class="title" id="site-title">sparkpacket | advertisements</div>
+      <div style="text-align:right">
+        <p style="margin:0;font-weight:600">Want your ad here?</p>
+        <p style="margin:0;color:var(--muted);font-size:13px">Contact: <span style="color:var(--accent)">jobs@sparkpacket.tech</span></p>
+      </div>
+    </header>
+
+    <div class="grid" id="slotsGrid" aria-live="polite">
+      <!-- Slots will be rendered by JS -->
     </div>
-    <div class="content" id="ad-container">
-      <div>Loading advertisements...</div>
-    </div>
-    <div class="footer">
-      Showing up to 11 ads. sparkpacket.json stays pinned at the top.
-    </div>
+
+    <p class="help">
+      How to change ads or make them appear more often: edit the <code>ads</code> array in the JavaScript below. Each ad object has a <code>frequency</code> number — larger numbers make that ad appear more frequently. Add more ad objects to accept more advertisers. The first slot (Slot 1) always shows the SparkPacket Tech ad and will not rotate.
+    </p>
   </div>
 
   <script>
-    const MAX_VISIBLE = 11;
-    const ROTATING_COUNT = 10;
-    const CYCLE_INTERVAL = 15000; // 15 seconds
-    const container = document.getElementById('ad-container');
-    let allAds = [];
-    let pinnedAd = null;
-    let otherAds = [];
-    let rotationIndex = 0;
+    /****************************************************************
+     * AD CONFIGURATION
+     *
+     * - The first slot (slotId = 1) is reserved for your main SparkPacket ad.
+     * - All other slots (2..11) will pick ads from `ads` each cycle.
+     * - To add an ad: push another object into the `ads` array.
+     * - To change how often an ad appears, change its `frequency` value.
+     * - `frequency` must be a positive number. Higher => appears more often.
+     *
+     * Ad object fields:
+     *  - id: unique string
+     *  - html: string of HTML to display inside the ad slot
+     *  - frequency: number controlling how often it shows relative to others
+     *  - active: boolean (set false to pause an ad without deleting it)
+     *
+     * Example usage: add or modify ads below.
+     ****************************************************************/
 
-    async function fetchAdList() {
-      const listRes = await fetch('./ads/index.json', {cache: 'no-store'});
-      if (!listRes.ok) throw new Error('Missing ads/index.json');
-      return await listRes.json();
+    const ads = [
+      {
+        id: 'adv-1',
+        html: `
+          <div style="text-align:center;max-width:240px">
+            <div style="font-weight:700;font-size:16px;margin-bottom:6px">example ad 1</div>
+            <div style="font-size:13px;color:var(--muted)">Your ad would be hosted here.</div>
+            <a href="#" onclick="alert('This would go to advertiser link'); return false" style="display:inline-block;margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.06);text-decoration:none;color:var(--text);font-weight:600">Learn more</a>
+          </div>`,
+        frequency: 8,
+        active: true
+      },
+      {
+        id: 'adv-2',
+        html: `
+          <div style="text-align:center;max-width:240px">
+            <div style="font-weight:700;font-size:16px;margin-bottom:6px">Example second second. yes.</div>
+            <div style="font-size:13px;color:var(--muted)">Also would be here.</div>
+            <a href="#" onclick="alert('Contact advertiser'); return false" style="display:inline-block;margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.06);text-decoration:none;color:var(--text);font-weight:600">Hire designer</a>
+          </div>`,
+        frequency: 5,
+        active: true
+      },
+      {
+        id: 'adv-3',
+        html: `
+          <div style="text-align:center;max-width:220px">
+            <div style="font-weight:700;font-size:16px;margin-bottom:6px">buh 3</div>
+            <div style="font-size:13px;color:var(--muted)">buh=examplereuhah</div>
+            <a href="#" onclick="alert('Contact advertiser'); return false" style="display:inline-block;margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.06);text-decoration:none;color:var(--text);font-weight:600">Contact</a>
+          </div>`,
+        frequency: 2,
+        active: true
+      },
+      {
+        id: 'adv-4',
+        html: `
+          <div style="text-align:center;max-width:220px">
+            <div style="font-weight:700;font-size:16px;margin-bottom:6px">4</div>
+            <div style="font-size:13px;color:var(--muted)">give us money to host your ad NOW!</div>
+            <a href="#" onclick="alert('Contact advertiser'); return false" style="display:inline-block;margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.06);text-decoration:none;color:var(--text);font-weight:600">Try demo</a>
+          </div>`,
+        frequency: 1,
+        active: true
+      }
+      // Add more ad objects here — anyone can be active:false to temporarily pause them
+    ];
+
+    /****************************************************************
+     * PAGE BEHAVIOR SETTINGS
+     ****************************************************************/
+    const TOTAL_SLOTS = 11;          // total number of slots on the page (1 reserved)
+    const RESERVED_FIRST_SLOT = 1;   // slot that is permanently SparkPacket
+    const CYCLE_INTERVAL_MS = 5000;  // how often slot contents rotate (ms)
+    const FADE_DURATION_MS = 450;    // must match CSS transition
+
+    /****************************************************************
+     * Helper: pick a single ad from 'ads' array using their frequency
+     * - Ads with higher frequency have higher chance to be picked.
+     * - Inactive ads (active:false) are not considered.
+     ****************************************************************/
+    function pickAdByFrequency() {
+      const pool = [];
+      for (const ad of ads) {
+        if (!ad.active) continue;
+        const times = Math.max(0, Math.floor(ad.frequency));
+        for (let i = 0; i < Math.max(1,times); i++) pool.push(ad);
+      }
+      // fallback if pool empty
+      if (pool.length === 0) {
+        return { id: 'empty', html: `<div style="color:var(--muted);font-size:13px">No active ads</div>` };
+      }
+      const choice = pool[Math.floor(Math.random() * pool.length)];
+      return choice;
     }
 
-    async function fetchAd(file) {
-      const res = await fetch(`./ads/${file}`, {cache: 'no-store'});
-      if (!res.ok) return null;
-      const data = await res.json();
-      data.__file = file;
-      return data;
+    /****************************************************************
+     * Render slots into DOM and start rotation
+     ****************************************************************/
+    const slotsGrid = document.getElementById('slotsGrid');
+
+    // initial create of slot elements
+    const slotElements = [];
+    for (let i = 1; i <= TOTAL_SLOTS; i++) {
+      const slotEl = document.createElement('div');
+      slotEl.className = 'slot';
+      slotEl.setAttribute('data-slot', i);
+      // meta label
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.textContent = `Slot ${i}`;
+      slotEl.appendChild(meta);
+      // inner container for ad content
+      const inner = document.createElement('div');
+      inner.className = 'ad-inner';
+      inner.style.opacity = 0;
+      slotEl.appendChild(inner);
+
+      slotsGrid.appendChild(slotEl);
+      slotElements.push({ slotEl, inner, slotIndex: i });
     }
 
-    function createAdElement(ad) {
-      const el = document.createElement('div');
-      el.className = 'ad-block fade-in';
-      el.innerHTML = `
-        <h1>${ad.title || '(untitled ad)'}</h1>
-        ${ad.subtitle ? `<h2>${ad.subtitle}</h2>` : ''}
-        ${ad.intro ? `<p>${ad.intro}</p>` : ''}
-        ${(ad.sections || []).map(s => `
-          <div class="section">
-            ${s.heading ? `<h3>${s.heading}</h3>` : ''}
-            ${s.text ? `<p>${s.text}</p>` : ''}
-            ${s.images ? `<div class="images">${s.images.map(i => `<img src="./image/${i}" alt="${i}" loading="lazy"/>`).join('')}</div>` : ''}
+    // sparkpacket main ad (slot 1)
+    function renderSparkMain(inner) {
+      inner.innerHTML = `
+        <div class="spark-main" role="img" aria-label="sparkpacket tech — just fucking get hired or something">
+          <div class="logo">SP</div>
+          <div class="copy">
+            <div style="font-weight:800;font-size:16px">sparkpacket tech</div>
+            <div style="margin-top:6px;color:var(--muted);font-size:13px">were hiring and we need it NOW</div>
+            <a class="cta" href="mailto:sparkpacket@outlook.com?subject=SparkPacket%20Job%20Inquiry">Apply / Contact</a>
           </div>
-        `).join('')}
+        </div>
       `;
-      return el;
     }
 
-    function renderAds(adsToShow) {
-      container.innerHTML = '';
-      adsToShow.forEach(ad => container.appendChild(createAdElement(ad)));
+    // generic function to show ad with smooth transition
+    function showAdInSlot(adHtml, inner) {
+      // enter animation
+      inner.classList.remove('ad-visible');
+      inner.classList.add('ad-enter');
+      // temporarily set invisible content so height/layout doesn't jump
+      setTimeout(() => {
+        inner.innerHTML = adHtml;
+        // force reflow then show
+        requestAnimationFrame(() => {
+          inner.classList.add('ad-visible');
+          inner.style.opacity = 1;
+          inner.classList.remove('ad-enter');
+        });
+      }, FADE_DURATION_MS / 3);
     }
 
-    async function init() {
-      try {
-        const files = await fetchAdList();
-        const ads = [];
-        for (const file of files) {
-          const ad = await fetchAd(file);
-          if (ad) ads.push(ad);
+    // initial render (slot 1 fixed, others random)
+    function initialRender() {
+      for (const { slotEl, inner, slotIndex } of slotElements) {
+        if (slotIndex === RESERVED_FIRST_SLOT) {
+          renderSparkMain(inner);
+          inner.style.opacity = 1;
+        } else {
+          const ad = pickAdByFrequency();
+          showAdInSlot(ad.html, inner);
         }
-
-        pinnedAd = ads.find(a => a.__file === 'sparkpacket.json');
-        otherAds = ads.filter(a => a.__file !== 'sparkpacket.json');
-        if (!pinnedAd) {
-          container.innerHTML = '<p>No sparkpacket.json found.</p>';
-          return;
-        }
-
-        const initial = [pinnedAd, ...otherAds.slice(0, ROTATING_COUNT)];
-        renderAds(initial);
-
-        // Begin rotation
-        setInterval(() => {
-          rotationIndex = (rotationIndex + ROTATING_COUNT) % otherAds.length;
-          const nextBatch = otherAds.slice(rotationIndex, rotationIndex + ROTATING_COUNT);
-          const adsToShow = [pinnedAd, ...nextBatch];
-          container.classList.add('fade-out');
-          setTimeout(() => {
-            renderAds(adsToShow);
-            container.classList.remove('fade-out');
-          }, 1000);
-        }, CYCLE_INTERVAL);
-
-      } catch (err) {
-        container.innerHTML = `<p style="color:red">Error: ${err.message}</p>`;
       }
     }
 
-    init();
+    initialRender();
+
+    // cycling behavior for slots 2..TOTAL_SLOTS
+    setInterval(() => {
+      for (const { slotEl, inner, slotIndex } of slotElements) {
+        if (slotIndex === RESERVED_FIRST_SLOT) continue;
+        // each slot picks its own ad independently
+        const ad = pickAdByFrequency();
+        showAdInSlot(ad.html, inner);
+      }
+    }, CYCLE_INTERVAL_MS);
+
+    /****************************************************************
+     * Optional: a tiny "admin" URL param allows updating frequency live
+     * (Useful if you want a quick UI while testing — not required)
+     *
+     * Visit page with ?admin=1 to see a minimal editor at bottom.
+     ****************************************************************/
+    function getQueryParams() {
+      return new URLSearchParams(window.location.search);
+    }
+
+    if (getQueryParams().get('admin') === '1') {
+      const adminPanel = document.createElement('div');
+      adminPanel.style.marginTop = '18px';
+      adminPanel.style.padding = '12px';
+      adminPanel.style.border = '1px solid rgba(255,255,255,0.03)';
+      adminPanel.style.borderRadius = '10px';
+      adminPanel.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02))';
+      adminPanel.innerHTML = `<strong style="display:block;margin-bottom:8px">Admin: edit frequencies</strong>`;
+      ads.forEach((ad, idx) => {
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.gap = '8px';
+        row.style.alignItems = 'center';
+        row.style.marginBottom = '8px';
+        const id = document.createElement('div');
+        id.style.width = '120px';
+        id.style.fontSize = '13px';
+        id.textContent = ad.id;
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = '0';
+        input.value = ad.frequency;
+        input.style.width = '90px';
+        input.addEventListener('change', (e) => {
+          ad.frequency = Number(e.target.value) || 0;
+        });
+        const toggle = document.createElement('label');
+        toggle.style.fontSize = '13px';
+        toggle.style.color = 'var(--muted)';
+        toggle.innerHTML = `<input type="checkbox" ${ad.active ? 'checked' : ''}> active`;
+        toggle.querySelector('input').addEventListener('change', (e) => {
+          ad.active = e.target.checked;
+        });
+        row.appendChild(id);
+        row.appendChild(input);
+        row.appendChild(toggle);
+        adminPanel.appendChild(row);
+      });
+      document.querySelector('.container').appendChild(adminPanel);
+    }
+
+    /****************************************************************
+     * Notes & suggestions:
+     * - To accept ad payments, provide advertisers a form (host elsewhere)
+     *   and collect their HTML snippet or image + link. Sanitize any HTML
+     *   before inserting if content is from untrusted sources.
+     *
+     * - To make advanced scheduling (e.g., show ad only on certain days),
+     *   add fields to each ad object (startDate, endDate, allowedHosts).
+     *
+     * - If you want per-slot preferences (e.g., slot 2 prefers dev ads),
+     *   give pickAdByFrequency a filter or pass a category when selecting.
+     *
+     * - This is client-side only. If you need server-controlled serving,
+     *   implement an API that returns which ad to show for a particular slot,
+     *   and let the page request that on each cycle.
+     ****************************************************************/
   </script>
 </body>
 </html>
